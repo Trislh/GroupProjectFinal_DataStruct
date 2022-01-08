@@ -2,11 +2,12 @@ import java.util.Random;
 
 public class Mine {
     private char[][] mine;
-    private int size;
+    private final int size;
     private int amountRock = 6;
     private int amountGold = 8;
     private char land = '.';
     private int row, col;
+    private char currentDirection;
 
     Random rand = new Random();
 
@@ -14,6 +15,8 @@ public class Mine {
         this.size = size;
         createMine();
     }
+
+    public int getSize() { return this.size; }
 
     private void createMine() {
 
@@ -25,6 +28,8 @@ public class Mine {
         addGold(mine);
 
     }
+
+    public int getMineLen() { return mine.length; }
 
     private char addGold(char[][] mine) {
         int goldValue = getRandomNumber(49, 54);
@@ -58,9 +63,10 @@ public class Mine {
         // get random coordinates
         row = rand.nextInt(size);
         col = rand.nextInt(size);
-        char currentDirection = mine[row][col];
+
+        currentDirection = mine[row][col];
         // check exit stage
-        if (amountRock == 0) return '.';
+        if (amountRock == 0 || row == 0 && col == 0 ) return '.';
         // check duplicated positions
         if (currentDirection == 'X') {
             return addRock(mine);
@@ -91,11 +97,12 @@ public class Mine {
     }
 
     public void displayMine() {
-        for (int i = 0; i < mine.length; i++) {
-            for (int j = 0; j < mine[i].length; j++) {
-                System.out.print(mine[i][j] + " ");
+        for (char[] chars : mine) {
+            for (char aChar : chars) {
+                System.out.print(aChar + " ");
             }
             System.out.println();
         }
     }
+
 }
